@@ -1,16 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
-  TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowRight, Search, Table, X } from "lucide-react";
+import { ArrowRight, Search, X } from "lucide-react";
 import { OrderDetails } from "./order-details";
-
-// export interface OrderTableRowProps {}
 
 export function OrderTableRowProps() {
   return (
