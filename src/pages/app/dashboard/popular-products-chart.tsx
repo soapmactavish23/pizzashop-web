@@ -52,7 +52,7 @@ export function PopularProductsChart() {
                 value,
                 index,
               }) => {
-                const RADIAN = Math.PI / 100;
+                const RADIAN = Math.PI / 180;
                 const radius = 12 + innerRadius + (outerRadius - innerRadius);
                 const x = cx + radius * Math.cos(-midAngle * RADIAN);
                 const y = cy + radius * Math.sin(-midAngle * RADIAN);
