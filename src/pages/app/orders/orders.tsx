@@ -1,19 +1,22 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowRight, Search, X } from "lucide-react";
 import { OrderTableRowProps } from "./order-table-row";
 import { OrderTableFilters } from "./order-table-filters";
 import { Pagination } from "@/components/pagination";
+import { useQuery } from "@tanstack/react-query";
+import { getOrders } from "@/api/get-orders";
 
 export function Orders() {
+  const { data: result } = useQuery({
+    queryKey: ["orders"],
+    queryFn: getOrders,
+  });
+
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -36,9 +39,12 @@ export function Orders() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {Array.from({ length: 10 }).map((_, i) => {
-                  return <OrderTableRowProps key={i} />;
-                })}
+                {result &&
+                  result.orders.map((order) => {
+                    return (
+                      <OrderTableRowProps key={order.orderId} order={order} />
+                    );
+                  })}
               </TableBody>
             </Table>
           </div>
