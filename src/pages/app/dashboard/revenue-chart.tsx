@@ -16,18 +16,16 @@ import {
   Line,
   CartesianGrid,
 } from "recharts";
-
-const data = [
-  { date: "10/12", revenue: 1200 },
-  { date: "11/12", revenue: 800 },
-  { date: "12/12", revenue: 900 },
-  { date: "13/12", revenue: 400 },
-  { date: "14/12", revenue: 2300 },
-  { date: "15/12", revenue: 800 },
-  { date: "16/12", revenue: 640 },
-];
+import { useQuery } from "@tanstack/react-query";
+import { getDailyRevenueInPeriod } from "@/api/get-daily-revenue-in-period";
+import { MatricCardSkeleton } from "./metric-card-skeleton";
 
 export function RevenueChart() {
+  const { data: dailyRevenueInPeriod } = useQuery({
+    queryKey: ["metrics", "daily-revenue-in-period"],
+    queryFn: getDailyRevenueInPeriod,
+  });
+
   return (
     <Card className="col-span-6">
       <CardHeader className="flex-row items-center justify-between pb-8">
@@ -39,30 +37,34 @@ export function RevenueChart() {
         </div>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={240}>
-          <LineChart data={data} style={{ fontSize: 12 }}>
-            <XAxis dataKey="date" tickLine={false} axisLine={false} dy={16} />
-            <YAxis
-              stroke="#888"
-              axisLine={false}
-              tickLine={false}
-              width={80}
-              tickFormatter={(value: number) =>
-                value.toLocaleString("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                })
-              }
-            />
-            <Line
-              type="linear"
-              strokeWidth={2}
-              dataKey="revenue"
-              stroke={colors.violet["400"]}
-            />
-            <CartesianGrid vertical={false} className="stroke-muted"/>
-          </LineChart>
-        </ResponsiveContainer>
+        {dailyRevenueInPeriod ? (
+          <ResponsiveContainer width="100%" height={240}>
+            <LineChart data={dailyRevenueInPeriod} style={{ fontSize: 12 }}>
+              <XAxis dataKey="date" tickLine={false} axisLine={false} dy={16} />
+              <YAxis
+                stroke="#888"
+                axisLine={false}
+                tickLine={false}
+                width={80}
+                tickFormatter={(value: number) =>
+                  value.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })
+                }
+              />
+              <Line
+                type="linear"
+                strokeWidth={2}
+                dataKey="receipt"
+                stroke={colors.violet["400"]}
+              />
+              <CartesianGrid vertical={false} className="stroke-muted" />
+            </LineChart>
+          </ResponsiveContainer>
+        ) : (
+          <MatricCardSkeleton />
+        )}
       </CardContent>
     </Card>
   );
