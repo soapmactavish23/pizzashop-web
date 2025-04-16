@@ -18,7 +18,6 @@ import {
 } from "recharts";
 import { useQuery } from "@tanstack/react-query";
 import { getDailyRevenueInPeriod } from "@/api/get-daily-revenue-in-period";
-import { MatricCardSkeleton } from "./metric-card-skeleton";
 import { Loader2 } from "lucide-react";
 
 export function RevenueChart() {
@@ -65,7 +64,7 @@ export function RevenueChart() {
           </ResponsiveContainer>
         ) : (
           <div className="flex h-[240px] w-full items-center justify-center">
-            <Loader2 className="h-8 w-8 text-muted-foreground animate-spin"/>
+            <Loader2 className="h-8 w-8 text-muted-foreground animate-spin" />
           </div>
         )}
       </CardContent>
